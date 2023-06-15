@@ -143,7 +143,7 @@ JOIN reviews r ON v.id = r.videogame_id
 WHERE r.rating >= 4;
 
 7- Selezionare quali giochi erano presenti nei tornei nei quali hanno partecipato i giocatori il cui nome inizia per 'S' (474)
-SELECT DISTINCT v.name
+SELECT DISTINCT v.*
 FROM `videogames` v
 JOIN tournament_videogame tv ON v.id = tv.videogame_id
 JOIN tournaments t ON t.id = tv.tournament_id
@@ -161,7 +161,15 @@ JOIN awards a ON a.id = av.award_id
 WHERE a.name = 'Gioco dell\'anno' AND av.year = 2018;
 
 9- Selezionare i giocatori che hanno giocato al gioco più atteso del 2018 in un torneo del 2019 (3306)
-
+SELECT p.*
+FROM `players` p
+JOIN player_tournament pt ON p.id = pt.player_id
+JOIN tournaments t ON t.id = pt.tournament_id
+JOIN tournament_videogame tv ON t.id = tv.tournament_id
+JOIN videogames v ON v.id = tv.videogame_id
+JOIN award_videogame av ON v.id = av.videogame_id
+JOIN awards a ON a.id = av.award_id
+WHERE a.name LIKE '%atteso' AND av.year = 2018 AND t.year = 2019;
 
 *********** BONUS ***********
 
